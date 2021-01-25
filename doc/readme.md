@@ -46,9 +46,12 @@ std::forward_list() objectList;
 
 Raycast<-->through bounding box
 
+
 BoundingBox<-->bounding box intersection
+AABB: duh.
 
 BoundingSphere<-->bounding box intersection
+https://stackoverflow.com/questions/28343716/sphere-intersection-test-of-aabb
 
 ## Raycast Algo
 
