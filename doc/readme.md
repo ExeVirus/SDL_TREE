@@ -46,11 +46,14 @@ std::forward_list() objectList;
 
 Raycast<-->through bounding box
 
+https://medium.com/@bromanz/another-view-on-the-classic-ray-aabb-intersection-algorithm-for-bvh-traversal-41125138b525
 
 BoundingBox<-->bounding box intersection
+
 AABB: duh.
 
 BoundingSphere<-->bounding box intersection
+
 https://stackoverflow.com/questions/28343716/sphere-intersection-test-of-aabb
 
 ## Raycast Algo
