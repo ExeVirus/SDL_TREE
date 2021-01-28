@@ -103,3 +103,35 @@ Should use template booleans to specify the kind of list/array to use for the co
 
 To specify the templates, must work from bottom-up, so that higher structs have a class they can template on. 
 
+## Research project overview
+
+1. Generates a random list of positions between x=0-800 by y=0-800
+    - This random list can have a distribution, say "clump around X random points" which would be more accurate to minetest gameplay
+    - These random points should tend towards the center: (400,400)
+    - Controlled by command line args
+    --Insertion and Deletion time MUST be considered, how does it affect performance per level?
+
+2. Use SDL2 to render each of these as a single point
+3. Render the dividing boxes as a light color box
+4. Player represents a lua question for the code: Either of:
+    - Get Objects in range
+    - Get Objects in area
+    - Get Objects in raycast
+5. All keyboard inputs:
+    - Arrow keys: player walks around
+    - A,S,D range,area,raycast
+        - These *toggle*
+        - When toggled, arrow keys behave differently
+        - for range, up and down increase the range
+        - for area, up and down increase vertical area, etc.
+        - for raycast, up and down change the length, left right, the aim.
+6. During the checking modes, timing information on how long each check takes is output to terminal.
+
+7. There will be 3 levels:
+    - level one divides the 800 length by 4, for 16 total boxes (200x200)
+    - Level Two divides the 200 length by 4, for 16 total boxes (50x50)
+    - level 3   divides the 50 length by 5, for 25 total boxes  (10x10)
+    - Other options will be used to test, obviously. 
+
+8. 10x10 represents a "block" in this example, so we will only spawn stuff within say 4 blocks of a random spawn point.
+
