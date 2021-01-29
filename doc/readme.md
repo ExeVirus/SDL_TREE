@@ -9,11 +9,28 @@ number of mapblocks:
 
 Highest Level: World
 0th level: 12800x12800x12800 chunks, 125 of them
+
 1st level: 2560x2560x2560 chunks, 125 of them
 2nd level: 512x512x512 chunks, 125 of them
 3rd level: 128x128x128 chunks, 64 of them
+The 1st-3rd level are dynamically allocated for each second level as needed, chaining onto the below request for memory:
+
 4th level: 32x32x32    chunks, 64 of them
 5th level: 16x16x16    chunks, 8 of them
+These levels are allocated all at once, whenever a 3rd level needs to be initialized. 256 KB of memory per initialization, not including the unordered maps
+Let's assume each map needs to reserve enough space for 4 entities, which requires a reserve for 8 objects. 
+Resulting memory size will be roughly: 64 Bytes per map, or a request for 2 MB of memory total....
+
+8     Bytes for 1st level allocation
+8     Bytes for 2nd level pointer allocation
+8     Bytes for 3rd level single pointer allocation
+576   Bytes for 4th and 5th level
+
+Request these in one chunk first
+
+32768 Bytes for map level
+
+Then request these, because 32 KB is perfect.
 
 So I could define 6 structs:
 
@@ -134,4 +151,12 @@ To specify the templates, must work from bottom-up, so that higher structs have 
     - Other options will be used to test, obviously. 
 
 8. 10x10 represents a "block" in this example, so we will only spawn stuff within say 4 blocks of a random spawn point.
+
+9. The upper levels are always just a static array, which helps tremendously with lookups, but
+    the bottom layer must be a dynamic memory object of some kind: for now it should be an unordered map.
+    The unordered map will only be allocated as needed. Otherwise it is ignored. 
+    Some spawns, such as Blocky survival will have 500 objects in a given 16x16x16 block, so that'll be our max stress test.
+
+10. All levels of arrays are initialized at startup, except the bottom level, these are just null pointers, making life much easier.
+
 
