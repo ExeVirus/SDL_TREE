@@ -1,5 +1,4 @@
 #include "main_window.h"
-#include "controls.h"
 #include <SDL.h>
 #include <iostream>
 
@@ -13,8 +12,8 @@ bool run = true;
 int mainw::initialize(ran::args* arg)
 {
     window = NULL;
-	screenSurface = NULL;()
-	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )()
+	screenSurface = NULL;
+	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
 	{
 		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
 		return 1;
@@ -32,20 +31,33 @@ int mainw::initialize(ran::args* arg)
 
 void mainw::loop()
 {
-	con::control_struct controls;
-	while(run) 
-	{
-		con::do_controls(&control_struct);
-		
-		//If quit is pressed
-		if(control_struct.quit)
-			break; //out of while loop
-		
-		//respond to controls
-		respond(&control_struct); //sets player position, toggles check
-		
-		if(timeHasPassed)
-			tick(); //renders screen, runs the toggled check
+	bool quit = false;
+	SDL_Event event;
+	while(!quit) 
+	{ //Event Loop
+		while( SDL_PollEvent( &event ) )
+        {
+			if( event.type == SDL_QUIT )
+                quit = true;
+            if( event.type == SDL_KEYDOWN ) {
+				switch( event.key.keysym.sym )
+                {
+                    case SDLK_UP:    up(true);    break;
+                    case SDLK_DOWN:  down(true);  break;
+                    case SDLK_LEFT:  left(true);  break;
+                    case SDLK_RIGHT: right(true); break;
+                }
+			}
+			if( event.type == SDL_KEYUP ) {
+				switch( event.key.keysym.sym )
+                {
+                    case SDLK_UP:    up(false);    break;
+                    case SDLK_DOWN:  down(false);  break;
+                    case SDLK_LEFT:  left(false);  break;
+                    case SDLK_RIGHT: right(false); break;
+                }
+			}
+		}
 	}
 }
 
@@ -56,4 +68,38 @@ void mainw::quit()
 
 	//Quit SDL subsystems
 	SDL_Quit();
+}
+
+void mainw::tick(){}
+
+void mainw::up(bool pressed)
+{
+	if(pressed)
+		std::cout << "UP."    << std::endl;
+	else
+		std::cout << "UP^"    << std::endl;
+}
+	
+void mainw::down(bool pressed)
+{
+	if(pressed)
+		std::cout << "DOWN."    << std::endl;
+	else
+		std::cout << "DOWN^"    << std::endl;
+}
+	
+void mainw::left(bool pressed)
+{
+	if(pressed)
+		std::cout << "LEFT."    << std::endl;
+	else
+		std::cout << "LEFT^"    << std::endl;
+}
+	
+void mainw::right(bool pressed)
+{
+	if(pressed)
+		std::cout << "RIGHT."    << std::endl;
+	else
+		std::cout << "RIGHT^"    << std::endl;
 }

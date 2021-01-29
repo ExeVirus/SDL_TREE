@@ -2,7 +2,6 @@
 #define MAIN_WINDOW_H
 
 #include <SDL.h>
-#include "controls.h"
 #include "random_gen.h"
 
 namespace mainw {
@@ -30,12 +29,13 @@ void loop();
 //
 void quit();
 
-//-------------------------
-// mainw::respond()
-// Uses controls from keyboard to 
-// move the player, change the current check, etc.
-//
-void respond(con::control_struct controls);
+
+void tick();
+
+void up(bool pressed);
+void down(bool pressed);
+void left(bool pressed);
+void right(bool pressed);
 
 } //End mainw namespace
 
